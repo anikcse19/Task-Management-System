@@ -1,0 +1,9 @@
+node_modules
+.next
+dist
+.git
+.gitignore
+*.md
+.env.local
+postgres-data
+docs

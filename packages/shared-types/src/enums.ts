@@ -1,0 +1,18 @@
+export enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
+export enum TaskStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  DONE = "DONE",
+}
+
+export enum AuditAction {
+  TASK_CREATED = "TASK_CREATED",
+  TASK_UPDATED = "TASK_UPDATED",
+  TASK_DELETED = "TASK_DELETED",
+  TASK_STATUS_CHANGED = "TASK_STATUS_CHANGED",
+  TASK_ASSIGNED = "TASK_ASSIGNED",
+}

@@ -1,0 +1,100 @@
+// Prisma Schema for Task Management System
+// Defines our 3 core tables: User, Task, AuditLog
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ──────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum TaskStatus {
+  PENDING
+  PROCESSING
+  DONE
+}
+
+enum AuditAction {
+  TASK_CREATED
+  TASK_UPDATED
+  TASK_DELETED
+  TASK_STATUS_CHANGED
+  TASK_ASSIGNED
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+}
+
+// ─── Models ─────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  createdTasks  Task[]     @relation("TaskCreatedBy")
+  assignedTasks Task[]     @relation("TaskAssignedTo")
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  status      TaskStatus @default(PENDING)
+
+  assignedToId String?
+  assignedTo   User?   @relation("TaskAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  createdById String
+  createdBy   User   @relation("TaskCreatedBy", fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Indexes for query performance
+  @@index([assignedToId])
+  @@index([createdById])
+  @@index([status])
+  @@map("tasks")
+}
+
+model AuditLog {
+  id             String      @id @default(uuid())
+  actorId        String
+  actorName      String
+  actorRole      Role
+  action         AuditAction
+  entityType     String      @default("Task")
+  entityId       String
+  entityTitle    String      @default("")
+  previousValues Json?
+  newValues      Json?
+  timestamp      DateTime    @default(now())
+
+  // Relations
+  actor User @relation(fields: [actorId], references: [id])
+
+  // Indexes
+  @@index([actorId])
+  @@index([entityId])
+  @@index([timestamp])
+  @@index([action])
+  @@map("audit_logs")
+}
