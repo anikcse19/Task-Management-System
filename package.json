@@ -9,7 +9,7 @@
     "dev:backend": "pnpm --filter backend dev",
     "dev:frontend": "pnpm --filter frontend dev",
     "dev": "pnpm run dev:backend & pnpm run dev:frontend",
-    "build": "pnpm --filter shared-types build && pnpm --filter backend build && pnpm --filter frontend build",
+    "build": "pnpm --filter backend build && pnpm --filter frontend build",
     "db:migrate": "pnpm --filter backend prisma:migrate",
     "db:seed": "pnpm --filter backend prisma:seed",
     "db:studio": "pnpm --filter backend prisma:studio"

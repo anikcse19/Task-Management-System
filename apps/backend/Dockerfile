@@ -6,7 +6,6 @@ WORKDIR /app
 # Copy workspace root files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/backend/package.json ./apps/backend/
-COPY packages/shared-types/package.json ./packages/shared-types/
 
 RUN pnpm install --frozen-lockfile
 

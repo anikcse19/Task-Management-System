@@ -64,9 +64,6 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
-      shared-types:
-        specifier: workspace:*
-        version: link:../../packages/shared-types
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
@@ -149,12 +146,6 @@ importers:
         version: 4.2.2
       typescript:
         specifier: ^5
-        version: 5.9.3
-
-  packages/shared-types:
-    devDependencies:
-      typescript:
-        specifier: ^5.7.0
         version: 5.9.3
 
 packages:

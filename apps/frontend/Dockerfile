@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/frontend/package.json ./apps/frontend/
-COPY packages/shared-types/package.json ./packages/shared-types/
 
 RUN pnpm install --frozen-lockfile
 
