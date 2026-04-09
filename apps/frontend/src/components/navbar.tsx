@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
 export function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await logout();
@@ -45,18 +46,21 @@ export function Navbar() {
                   <NavLink
                     href="/admin/tasks"
                     icon={<ListTodo className="h-4 w-4" />}
+                    active={pathname.startsWith("/admin/tasks")}
                   >
                     Tasks
                   </NavLink>
                   <NavLink
                     href="/admin/users"
                     icon={<Users className="h-4 w-4" />}
+                    active={pathname.startsWith("/admin/users")}
                   >
                     Users
                   </NavLink>
                   <NavLink
                     href="/admin/audit"
                     icon={<ScrollText className="h-4 w-4" />}
+                    active={pathname.startsWith("/admin/audit")}
                   >
                     Audit Logs
                   </NavLink>
@@ -65,6 +69,7 @@ export function Navbar() {
                 <NavLink
                   href="/user/tasks"
                   icon={<LayoutDashboard className="h-4 w-4" />}
+                  active={pathname.startsWith("/user/tasks")}
                 >
                   My Tasks
                 </NavLink>
@@ -95,15 +100,21 @@ function NavLink({
   href,
   icon,
   children,
+  active,
 }: {
   href: string;
   icon: React.ReactNode;
   children: React.ReactNode;
+  active?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+      className={`flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        active
+          ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
+          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+      }`}
     >
       {icon}
       {children}
